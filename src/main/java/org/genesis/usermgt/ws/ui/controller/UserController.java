@@ -39,9 +39,6 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    @Autowired
-    Utils utils;
-
     @GetMapping
     public void getUsers() {
         System.out.println("get users");
@@ -57,8 +54,6 @@ public class UserController {
 
         UserDto userDto = new UserDto();
         BeanUtils.copyProperties(userRequestModel, userDto);
-        userDto.setHashedPassword("pass");
-        userDto.setUserId(utils.generateUUID());
 
         UserDto createdUser = userService.createUser(userDto);
 

@@ -21,9 +21,11 @@ package org.genesis.usermgt.ws.service.impl;
 import org.genesis.usermgt.ws.UserRepository;
 import org.genesis.usermgt.ws.io.entity.UserEntity;
 import org.genesis.usermgt.ws.service.UserService;
+import org.genesis.usermgt.ws.shared.Utils;
 import org.genesis.usermgt.ws.shared.dto.UserDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -31,6 +33,12 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    Utils utils;
 
     @Override
     public UserDto createUser(UserDto user) {
@@ -41,6 +49,8 @@ public class UserServiceImpl implements UserService {
         }
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
+        userEntity.setUserId(utils.generateUUID());
+        userEntity.setHashedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         UserEntity persistedUser = userRepository.save(userEntity);
         user = new UserDto();
         BeanUtils.copyProperties(persistedUser, user);
