@@ -25,6 +25,8 @@ import org.genesis.usermgt.ws.shared.Utils;
 import org.genesis.usermgt.ws.shared.dto.UserDto;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -50,10 +52,16 @@ public class UserServiceImpl implements UserService {
         UserEntity userEntity = new UserEntity();
         BeanUtils.copyProperties(user, userEntity);
         userEntity.setUserId(utils.generateUUID());
-        userEntity.setHashedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+//        userEntity.setHashedPassword(bCryptPasswordEncoder.encode(user.getPassword()));
         UserEntity persistedUser = userRepository.save(userEntity);
         user = new UserDto();
         BeanUtils.copyProperties(persistedUser, user);
         return user;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+
+        return null;
     }
 }

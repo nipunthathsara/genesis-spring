@@ -19,8 +19,9 @@
 package org.genesis.usermgt.ws.service;
 
 import org.genesis.usermgt.ws.shared.dto.UserDto;
+import org.springframework.security.core.userdetails.UserDetailsService;
 
-public interface UserService {
+public interface UserService extends UserDetailsService {
 
     UserDto createUser(UserDto userDto);
 }

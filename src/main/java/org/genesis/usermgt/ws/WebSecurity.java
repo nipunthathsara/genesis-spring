@@ -20,6 +20,7 @@ package org.genesis.usermgt.ws;
 
 import org.genesis.usermgt.ws.service.UserService;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -42,5 +43,10 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         httpSecurity.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/users").permitAll()
                 .anyRequest().authenticated();
+    }
+
+    public void configure(AuthenticationManagerBuilder auth) throws Exception {
+
+        auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);
     }
 }
