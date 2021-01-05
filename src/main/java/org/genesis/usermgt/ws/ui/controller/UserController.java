@@ -19,7 +19,6 @@
 package org.genesis.usermgt.ws.ui.controller;
 
 import org.genesis.usermgt.ws.service.UserService;
-import org.genesis.usermgt.ws.shared.Utils;
 import org.genesis.usermgt.ws.shared.dto.UserDto;
 import org.genesis.usermgt.ws.ui.model.request.UserRequestModel;
 import org.genesis.usermgt.ws.ui.model.response.UserResponseModel;
