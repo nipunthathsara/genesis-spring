@@ -16,14 +16,24 @@
  * under the License.
  */
 
-package org.genesis.usermgt.ws.constant;
+package org.genesis.usermgt.ws;
 
-public class SecurityConstants {
+import org.springframework.beans.BeansException;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.ApplicationContextAware;
 
-    public static final long EXPIRATION_TIME = 1000000;
-    public static final String TOKEN_PREFIX = "Bearer ";
-    public static final String AUTHORIZATION_HEADER = "Authorization ";
-    public static final String SIGN_UP_URL = "/users";
-    public static final String TOKEN_SECRET = "12345";
-    public static final String USER_ID = "userId";
+public class SpringApplicationContext implements ApplicationContextAware {
+
+    private static ApplicationContext context;
+
+    @Override
+    public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
+
+        context = applicationContext;
+    }
+
+    public static Object getBean(String beanName) {
+
+        return context.getBean(beanName);
+    }
 }

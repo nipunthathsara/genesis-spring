@@ -21,7 +21,10 @@ package org.genesis.usermgt.ws.security;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
+import org.genesis.usermgt.ws.SpringApplicationContext;
 import org.genesis.usermgt.ws.constant.SecurityConstants;
+import org.genesis.usermgt.ws.service.UserService;
+import org.genesis.usermgt.ws.shared.dto.UserDto;
 import org.genesis.usermgt.ws.ui.model.request.UserLoginRequestModel;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -70,6 +73,11 @@ public class AuthenticationFilter extends UsernamePasswordAuthenticationFilter {
                 .setExpiration(new Date(System.currentTimeMillis() + SecurityConstants.EXPIRATION_TIME))
                 .signWith(SignatureAlgorithm.HS512, SecurityConstants.TOKEN_SECRET)
                 .compact();
+
+        UserService userService = (UserService) SpringApplicationContext.getBean("userServiceImpl");
+        UserDto userDto = userService.getUser(userName);
+
         response.addHeader(SecurityConstants.AUTHORIZATION_HEADER, SecurityConstants.TOKEN_PREFIX + token);
+        response.addHeader(SecurityConstants.USER_ID, userDto.getUserId());
     }
 }

@@ -18,7 +18,7 @@
 
 package org.genesis.usermgt.ws.service.impl;
 
-import org.genesis.usermgt.ws.UserRepository;
+import org.genesis.usermgt.ws.io.repositories.UserRepository;
 import org.genesis.usermgt.ws.io.entity.UserEntity;
 import org.genesis.usermgt.ws.service.UserService;
 import org.genesis.usermgt.ws.shared.Utils;
@@ -70,5 +70,17 @@ public class UserServiceImpl implements UserService {
             throw new UsernameNotFoundException(email);
         }
         return new User(email, userEntity.getHashedPassword(), new ArrayList<>());
+    }
+
+    @Override
+    public UserDto getUser(String email) throws UsernameNotFoundException {
+
+        UserEntity userEntity = userRepository.findUserByEmail(email);
+        if (userEntity == null) {
+            throw new RuntimeException("Email address : " + email + " not found");
+        }
+        UserDto userDto = new UserDto();
+        BeanUtils.copyProperties(userEntity, userDto);
+        return userDto;
     }
 }

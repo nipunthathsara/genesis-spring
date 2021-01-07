@@ -41,10 +41,13 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
-        httpSecurity.csrf().disable().authorizeRequests().antMatchers(HttpMethod.POST, "/users").permitAll()
+        httpSecurity.csrf().disable()
+                .authorizeRequests()
+                .antMatchers(HttpMethod.POST, "/users").permitAll()
                 .anyRequest().authenticated().and().addFilter(new AuthenticationFilter(authenticationManager()));
     }
 
+    @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
 
         auth.userDetailsService(userService).passwordEncoder(bCryptPasswordEncoder);

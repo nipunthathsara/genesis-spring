@@ -16,7 +16,7 @@
  * under the License.
  */
 
-package org.genesis.usermgt.ws;
+package org.genesis.usermgt.ws.io.repositories;
 
 import org.genesis.usermgt.ws.io.entity.UserEntity;
 import org.springframework.data.repository.CrudRepository;
