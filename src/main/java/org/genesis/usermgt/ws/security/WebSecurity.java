@@ -18,6 +18,7 @@
 
 package org.genesis.usermgt.ws.security;
 
+import org.genesis.usermgt.ws.constant.SecurityConstants;
 import org.genesis.usermgt.ws.service.UserService;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -45,12 +46,15 @@ public class WebSecurity extends WebSecurityConfigurerAdapter {
 
         AuthenticationFilter authenticationFilter = new AuthenticationFilter(authenticationManager());
         authenticationFilter.setFilterProcessesUrl(LOGIN_URL);
+        AuthorizationFilter authorizationFilter = new AuthorizationFilter(authenticationManager());
 
-        httpSecurity.csrf().disable()
+        httpSecurity
+                .csrf().disable()
                 .authorizeRequests()
-                .antMatchers(HttpMethod.POST, "/users").permitAll()
+                .antMatchers(HttpMethod.POST, SecurityConstants.SIGN_UP_URL).permitAll()
                 .anyRequest().authenticated().and()
-                .addFilter(authenticationFilter);
+                .addFilter(authenticationFilter)
+                .addFilter(authorizationFilter);
     }
 
     @Override
